@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CRM Custom Styles ──────────────────────────────── */
+
+/* Inter font override */
+body {
+    font-family: 'Inter', 'Figtree', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+/* Table row transitions */
+tbody tr {
+    transition: background-color 150ms ease;
+}
+
+/* Focus ring standardization */
+input:focus,
+select:focus,
+textarea:focus {
+    --tw-ring-color: #6366F1;
+    --tw-ring-offset-width: 0px;
+}
