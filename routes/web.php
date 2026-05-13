@@ -12,15 +12,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes — CRM System
-|--------------------------------------------------------------------------
-| All CRM routes require authentication. Route groups use manual
-| definitions (no Route::resource) as per requirements.
-|--------------------------------------------------------------------------
+Web Routes — CRM System
 */
 
-// Redirect root to dashboard for authenticated users
 Route::get('/', function () {
     return auth::check() ? redirect()->route('dashboard') : redirect()->route('login');
 });
@@ -102,6 +96,11 @@ Route::middleware('auth')->group(function () {
         Route::put('/{user}',      [UserManagementController::class, 'update'])->name('update');
         Route::delete('/{user}',   [UserManagementController::class, 'destroy'])->name('destroy');
     });
+
+    Route::get('/logout', function () {
+    return redirect('/');
+    });
+
 });
 
 require __DIR__.'/auth.php';
