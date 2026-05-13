@@ -16,10 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => RoleMiddleware::class,
         ]);
-
-        // Trust all proxies (required for Render, Heroku, AWS ELB, etc.)
-        // This ensures Laravel correctly detects HTTPS behind the reverse proxy,
-        // which is critical for CSRF token validation and secure session cookies.
+        
         $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
