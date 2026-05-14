@@ -80,19 +80,6 @@ Route::middleware('auth')->group(function () {
 
     // ── Reports ──────────────────────────────────────────────────────────
     Route::prefix('reports')->name('reports.')->group(function () {
-        // Export routes (CSV & PDF)
-        Route::get('/customers/export-csv',     [ReportExportController::class, 'customersCsv'])->name('customers.export-csv');
-        Route::get('/customers/export-pdf',     [ReportExportController::class, 'customersPdf'])->name('customers.export-pdf');
-        Route::get('/leads/export-csv',         [ReportExportController::class, 'leadsCsv'])->name('leads.export-csv');
-        Route::get('/leads/export-pdf',         [ReportExportController::class, 'leadsPdf'])->name('leads.export-pdf');
-        Route::get('/pipeline/export-csv',      [ReportExportController::class, 'pipelineCsv'])->name('pipeline.export-csv');
-        Route::get('/pipeline/export-pdf',      [ReportExportController::class, 'pipelinePdf'])->name('pipeline.export-pdf');
-        Route::get('/user-activity/export-csv', [ReportExportController::class, 'userActivityCsv'])->name('user-activity.export-csv');
-        Route::get('/user-activity/export-pdf', [ReportExportController::class, 'userActivityPdf'])->name('user-activity.export-pdf');
-        Route::get('/follow-ups/export-csv',    [ReportExportController::class, 'followUpsCsv'])->name('follow-ups.export-csv');
-        Route::get('/follow-ups/export-pdf',    [ReportExportController::class, 'followUpsPdf'])->name('follow-ups.export-pdf');
-
-        // Report views
         Route::get('/',              [ReportController::class, 'index'])->name('index');
         Route::get('/customers',     [ReportController::class, 'customers'])->name('customers');
         Route::get('/leads',         [ReportController::class, 'leads'])->name('leads');
@@ -110,11 +97,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/{user}',      [UserManagementController::class, 'update'])->name('update');
         Route::delete('/{user}',   [UserManagementController::class, 'destroy'])->name('destroy');
     });
-
-    Route::get('/logout', function () {
-    return redirect('/');
-    });
-
+    
 });
 
 require __DIR__.'/auth.php';

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 class UserManagementController extends Controller
@@ -28,7 +29,11 @@ class UserManagementController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role'     => 'required|in:admin,manager,sales',
         ]);
+
+        $validated['password'] = Hash::make($validated['password']);
+
         User::create($validated);
+
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
@@ -40,16 +45,20 @@ class UserManagementController extends Controller
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'role'  => 'required|in:admin,manager,sales',
+            'name'     => 'required|string|max:255',
+            'email'    => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
+            'role'     => 'required|in:admin,manager,sales',
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
         ]);
+
         if (!empty($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
         }
+
         $user->update($validated);
+
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
@@ -58,7 +67,9 @@ class UserManagementController extends Controller
         if ($user->id === auth()->id()) {
             return redirect()->route('users.index')->with('error', 'You cannot delete yourself.');
         }
+
         $user->delete();
+
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
     }
 }
